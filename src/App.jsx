@@ -9,9 +9,9 @@ import Filter from './components/Filters/Filter';
 import Header from './components/Header';
 import Countries from './components/Countries';
 import FullCountry from './components/FullCountry';
-import { selectCountryData } from './redux/country1/selectors';
+import { selectCountryData } from './redux/country/selectors';
 import { selectFilter } from './redux/filters/selectors';
-import { fetchCountries } from './redux/country1/asyncActions';
+import { fetchCountries } from './redux/country/asyncActions';
 
 function App() {
   const isSearch = React.useRef(false);
