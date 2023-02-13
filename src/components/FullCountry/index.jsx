@@ -1,13 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
 import './FullCountry.scss';
+import { ThemeProvider } from '@emotion/react';
+import { createTheme } from '@mui/system';
 
 const FullCountry = () => {
   const [country, setCountry] = React.useState([]);
-  const name = 'USA';
+  const { name } = useParams();
 
   const fetchCountry = () => {
     fetch('https://restcountries.com/v3.1/name/' + name)
@@ -19,6 +21,12 @@ const FullCountry = () => {
         console.log(err);
       });
   };
+
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+    },
+  });
 
   React.useEffect(() => {
     fetchCountry();
@@ -45,7 +53,7 @@ const FullCountry = () => {
         <KeyboardBackspaceIcon sx={{ pb: '2px', pr: '7px', pl: '4px' }}></KeyboardBackspaceIcon>
         Back
       </Button>
-      {country.map((item, i) => {
+      {country.map((item) => {
         return (
           <>
             <div className="info">
@@ -55,7 +63,8 @@ const FullCountry = () => {
                 <div className="info__blocks-block1">
                   <ul>
                     <li>
-                      <b>Native Name:</b> {Object.keys(item.name.nativeName).map((e, i) => (
+                      <b>Native Name:</b>{' '}
+                      {Object.keys(item.name.nativeName).map((e, i) => (
                         <span key={i}>{' ' + item.name.nativeName[e].common}</span>
                       ))}
                     </li>
@@ -74,11 +83,15 @@ const FullCountry = () => {
                   </ul>
                   <span className="info__blocks-block1-borders">
                     <b>Border countries: </b>
-                    {item.borders ? item.borders.map((e, i) => (
-                      <span key={i} className="border-elements">
-                        {e}
-                      </span>
-                    )) : <span  className="border-elements">None</span>}
+                    {item.borders ? (
+                      item.borders.map((e, i) => (
+                        <span key={i} className="border-elements">
+                          {e}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="border-elements">None</span>
+                    )}
                   </span>
                 </div>
                 <div className="info__blocks-block2">
@@ -87,7 +100,8 @@ const FullCountry = () => {
                       <b>Top Level Domain:</b> {item.tld}
                     </li>
                     <li>
-                      <b>Currencies:</b> {Object.keys(item.currencies).map((e, i) => (
+                      <b>Currencies:</b>{' '}
+                      {Object.keys(item.currencies).map((e, i) => (
                         <span key={i}>{' ' + item.currencies[e].name}</span>
                       ))}
                     </li>

@@ -1,8 +1,25 @@
 import { TextField } from '@mui/material';
+import debounce from 'lodash.debounce';
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { setSearchValue } from '../../redux/filters/slice';
 
-const Search = (props) => {
-  const { onChange, value } = props;
+const Search = () => {
+  const dispatch = useDispatch();
+  const [value, setValue] = React.useState('');
+  console.log(value);
+
+  const updateSearchValue = React.useCallback(
+    debounce((str) => {
+      dispatch(setSearchValue(str));
+    }, 250),
+    [],
+  );
+
+  const onChangeInput = (event) => {
+    setValue(event.target.value);
+    updateSearchValue(event.target.value);
+  };
 
   return (
     <TextField
@@ -14,7 +31,7 @@ const Search = (props) => {
       label="Search for a country"
       type="search"
       value={value}
-      onChange={onChange}
+      onChange={onChangeInput}
     />
   );
 };

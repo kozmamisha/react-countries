@@ -1,12 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
 
-import search from './search/slice';
+import country from './country/slice'
+import filter from './filters/slice'
 
 export const store = configureStore({
   reducer: {
-
+    country,
+    filter,
   },
 });
-
-export const useAppDispatch = () => useDispatch();

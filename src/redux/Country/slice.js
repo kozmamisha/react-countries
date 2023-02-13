@@ -1,15 +1,20 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-import { fetchPizzas } from "./asyncActions";
-import { Status } from "./types";
+import { fetchCountries } from "./asyncActions";
+
+const Status = {
+  LOADING: 'loading',
+  SUCCESS: 'success',
+  ERROR: 'error',
+}
 
 const initialState = {
   items: [],
   status: Status.LOADING,
 };
 
-const pizzaSlice = createSlice({
-  name: 'pizza',
+const countrySlice = createSlice({
+  name: 'country',
   initialState,
   reducers: {
     setItems(state, action) {
@@ -18,23 +23,23 @@ const pizzaSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    builder.addCase(fetchPizzas.pending, (state, action) => {
+    builder.addCase(fetchCountries.pending, (state, action) => {
       state.status = Status.LOADING;
       state.items = [];
     });
 
-    builder.addCase(fetchPizzas.fulfilled, (state, action) => {
+    builder.addCase(fetchCountries.fulfilled, (state, action) => {
       state.status = Status.SUCCESS;
       state.items = action.payload;
     });
 
-    builder.addCase(fetchPizzas.rejected, (state, action) => {
+    builder.addCase(fetchCountries.rejected, (state, action) => {
       state.status = Status.ERROR;
       state.items = [];
     });
   },
 });
 
-export const { setItems } = pizzaSlice.actions;
+export const { setItems } = countrySlice.actions;
 
-export default pizzaSlice.reducer;
+export default countrySlice.reducer;
