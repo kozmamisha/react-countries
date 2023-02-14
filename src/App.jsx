@@ -2,7 +2,8 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { Grid } from '@mui/material';
+import { createTheme, Grid, IconButton, ThemeProvider, Typography } from '@mui/material';
+import CssBaseline from '@mui/material/CssBaseline';
 
 import Search from './components/Filters/Search';
 import Filter from './components/Filters/Filter';
@@ -18,6 +19,19 @@ function App() {
   const dispatch = useDispatch();
   const { items, status } = useSelector(selectCountryData);
   const { searchValue } = useSelector(selectFilter);
+
+  const [mode, setMode] = React.useState('light');
+  console.log(mode);
+
+  const darkTheme = createTheme({
+    palette: {
+      mode: mode,
+    },
+  });
+
+  const onChangeMode = (obj) => {
+    setMode(obj);
+  };
 
   const getCountries = async () => {
     const search = searchValue ? `${searchValue}` : '';
@@ -38,32 +52,35 @@ function App() {
   }, [searchValue]);
 
   return (
-    <>
-      <Header/>
-      <div className="container">
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <div className="filters">
-                  <Search />
-                  <Filter />
-                </div>
-                <Grid container rowSpacing={5} columnSpacing={3}>
-                  {status === 'loading' ? (
-                    <span>Loading...</span>
-                  ) : (
-                    items.map((obj, i) => <Countries key={i} {...obj} />)
-                  )}
-                </Grid>
-              </>
-            }
-          />
-          <Route path="/country/:name" element={<FullCountry />} />
-        </Routes>
-      </div>
-    </>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline>
+        <Header mode={mode} setMode={setMode}/>
+        
+        <div className="container">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <div className="filters">
+                    <Search />
+                    <Filter />
+                  </div>
+                  <Grid container rowSpacing={5} columnSpacing={3}>
+                    {status === 'loading' ? (
+                      <span>Loading...</span>
+                    ) : (
+                      items.map((obj, i) => <Countries key={i} {...obj} />)
+                    )}
+                  </Grid>
+                </>
+              }
+            />
+            <Route path="/country/:name" element={<FullCountry />} />
+          </Routes>
+        </div>
+      </CssBaseline>
+    </ThemeProvider>
   );
 }
 

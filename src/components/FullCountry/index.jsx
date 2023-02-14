@@ -4,8 +4,6 @@ import Button from '@mui/material/Button';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
 import './FullCountry.scss';
-import { ThemeProvider } from '@emotion/react';
-import { createTheme } from '@mui/system';
 
 const FullCountry = () => {
   const [country, setCountry] = React.useState([]);
@@ -21,12 +19,6 @@ const FullCountry = () => {
         console.log(err);
       });
   };
-
-  const darkTheme = createTheme({
-    palette: {
-      mode: 'dark',
-    },
-  });
 
   React.useEffect(() => {
     fetchCountry();
@@ -46,7 +38,6 @@ const FullCountry = () => {
           color: '#8a8c8e',
           border: '1px solid #e7e7e7',
           mt: '3rem',
-          backgroundColor: '#fff',
           boxShadow: '0px 0px 3px 0px rgba(0,0,0,0.21)',
         }}
         variant="outlined">
